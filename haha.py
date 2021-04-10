@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import sys
 
 def get_valid_lines(path):
     with open(path, "r", encoding="utf8") as f:
@@ -40,5 +41,5 @@ def plot_categories(nrof_haha, nrof_xd, nrof_normal):
     plt.show()
 
 if __name__ == "__main__":
-    nrof_haha, nrof_xd, nrof_normal = count_categorize_lines(get_valid_lines(".\WhatsApp Chat with Aikoo.txt"))
+    nrof_haha, nrof_xd, nrof_normal = count_categorize_lines(get_valid_lines(sys.argv[1]))
     plot_categories(nrof_haha, nrof_xd, nrof_normal)
