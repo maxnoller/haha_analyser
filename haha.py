@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import sys
 
-def get_valid_lines(path):
+def get_valid_lines(path, user):
     with open(path, "r", encoding="utf8") as f:
         lines = f.readlines()
-        return filter_lines(lines)
+        return filter_lines(lines, user)
 
-def filter_lines(lines):
+def filter_lines(lines, user):
     filtered_lines = []
     for line in lines:
-        if line.endswith("<Media omitted>"):
+        if line.endswith("<Media omitted>") or not check_user(line, user):
             continue
         else:
             split_line = line.split(": ")
@@ -18,6 +18,13 @@ def filter_lines(lines):
             else:
                 filtered_lines.append(line)
     return filtered_lines
+
+def check_user(line, user):
+    split_line = line.split(" - ")
+    if len(split_line) > 1 and split_line[1].startswith(user):
+        return True
+    return False
+
 
 def count_categorize_lines(lines):
     nrof_haha = 0
@@ -41,5 +48,5 @@ def plot_categories(nrof_haha, nrof_xd, nrof_normal):
     plt.show()
 
 if __name__ == "__main__":
-    nrof_haha, nrof_xd, nrof_normal = count_categorize_lines(get_valid_lines(sys.argv[1]))
+    nrof_haha, nrof_xd, nrof_normal = count_categorize_lines(get_valid_lines(sys.argv[1], sys.argv[2]))
     plot_categories(nrof_haha, nrof_xd, nrof_normal)
